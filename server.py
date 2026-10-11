@@ -156,10 +156,10 @@ def get_flac(identifier):
 
     # Prefer the largest FLAC first, then inspect the best few in parallel.
     candidates.sort(key=lambda pair: num(pair[1].get("size")) or 0, reverse=True)
-    candidates = candidates[:12]
+    candidates = candidates[:4]
 
     inspected = []
-    with ThreadPoolExecutor(max_workers=4) as pool:
+    with ThreadPoolExecutor(max_workers=2) as pool:
         futures = [
             pool.submit(inspect, identifier, item)
             for _, item in candidates
@@ -242,7 +242,7 @@ def do_search():
             params={
                 "q": f"(mediatype:audio) AND ({query})",
                 "fl[]": ["identifier", "title", "creator", "album", "year"],
-                "rows": min(limit * 4, 80),
+                "rows": min(limit * 2, 20),
                 "page": 1,
                 "output": "json",
             },
