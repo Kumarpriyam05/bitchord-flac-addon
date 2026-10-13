@@ -21,8 +21,7 @@ MANIFEST = {
             "default": "lossless",
             "options": [
                 {"label": "Lossless", "value": "lossless"},
-                {"label": "High", "value": "high"},
-                {"label": "Low", "value": "low"},
+            
             ],
         }
     ],
