@@ -96,13 +96,26 @@ def quality(sr, bd):
 
 def quality_label(sr, bd):
     details = []
+
     if bd is not None:
         details.append(f"{bd}-bit")
+
     if sr is not None:
         details.append(f"{sr / 1000:g} kHz")
-    hi_res = (bd is not None and bd > 16) or (sr is not None and sr > 48000)
+
+    # Conservative hi-res classification:
+    # both bit depth and sample rate must exceed CD quality.
+    hi_res = (
+        bd is not None and bd > 16
+        and sr is not None and sr > 44100
+    )
+
     label = "Hi-Res Lossless" if hi_res else "Lossless"
-    return label + (f" · {' / '.join(details)}" if details else "")
+
+    if details:
+        label += " · " + " / ".join(details)
+
+    return label
 
 
 
